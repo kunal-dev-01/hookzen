@@ -1,7 +1,7 @@
 services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
-    container_name: upnixo_rabbitmq_dev
+    container_name: hookzen_rabbitmq_dev
     env_file:
       - .env
     restart: unless-stopped
@@ -23,7 +23,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: upnixo_redis_dev
+    container_name: hookzen_redis_dev
     restart: unless-stopped
     env_file:
       - .env
@@ -33,7 +33,7 @@ services:
         "--appendonly",
         "yes",
         "--requirepass",
-        "${REDIS_PASSWORD:-upnixo_password}",
+        "${REDIS_PASSWORD:-hookzen_password}",
       ]
     ports:
       - "6379:6379"
