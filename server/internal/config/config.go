@@ -19,12 +19,8 @@ type Config struct {
 	Redis    RedisConfig
 	RabbitMQ RabbitMQConfig
 	JWT      JWTConfig
-	AdminJWT JWTConfig
 	Security SecurityConfig
 	Frontend FrontendConfig
-	AWS      AWSConfig
-	Google   GoogleConfig
-	Github   GitHubConfig
 	App      AppConfig
 	R2       R2Config
 	Logger   LoggerConfig
@@ -99,11 +95,11 @@ type RedisConfig struct {
 // RabbitMQ Config
 // ============================================================================
 type RabbitMQConfig struct {
-	Host       string
-	Port       int
-	User       string
-	Password   string
-	VHost      string
+	Host        string
+	Port        int
+	User        string
+	Password    string
+	VHost       string
 	MaxRetries  int
 	RetryDelay  time.Duration
 	EmailQueue  string
@@ -124,52 +120,19 @@ type JWTConfig struct {
 // Security Config
 // ============================================================================
 type SecurityConfig struct {
-	MaxLoginAttempts  int
-	LockoutDuration   time.Duration
-	RateLimitMax      int
-	MaxSessions       int
-	TOTPEncryptionKey string
+	MaxLoginAttempts int
+	LockoutDuration  time.Duration
+	RateLimitMax     int
+	MaxSessions      int
 }
 
 // ============================================================================
 // Frontend Config
 // ============================================================================
 type FrontendConfig struct {
-	FrontendUrl           string
-	OAuthSuccessURL       string
-	OAuthErrorURL         string
-	VerificationUrl       string
-	ResetUrl              string
-	AdminResetPasswordUrl string
-	SecretResetUrl        string
-}
-
-// ============================================================================
-// AWS Config
-// ============================================================================
-type AWSConfig struct {
-	AWSAccessKey string
-	AWSSecretKey string
-	AWSRegion    string
-	AWSFromEmail string
-}
-
-// ============================================================================
-// Google OAuth Config
-// ============================================================================
-type GoogleConfig struct {
-	ClientID     string
-	ClientSecret string
-	RedirectURL  string
-}
-
-// ============================================================================
-// GitHub OAuth Config
-// ============================================================================
-type GitHubConfig struct {
-	ClientID     string
-	ClientSecret string
-	RedirectURL  string
+	FrontendUrl     string
+	VerificationUrl string
+	ResetUrl        string
 }
 
 // ============================================================================
@@ -262,14 +225,14 @@ func Load() (*Config, error) {
 			RetryDelay:         getEnvAsDuration("REDIS_RETRY_DELAY", 5*time.Second),
 		},
 		RabbitMQ: RabbitMQConfig{
-			Host:       getEnv("RABBITMQ_HOST", "localhost"),
-			Port:       getEnvAsInt("RABBITMQ_PORT", 5672),
-			User:       getEnv("RABBITMQ_USER", "guest"),
-			Password:   getEnv("RABBITMQ_PASSWORD", "guest"),
-			VHost:      getEnv("RABBITMQ_VHOST", ""),
-			MaxRetries: getEnvAsInt("RABBITMQ_MAX_RETRIES", 5),
-			RetryDelay: getEnvAsDuration("RABBITMQ_RETRY_DELAY", 5*time.Second),
-			EmailQueue: getEnv("RABBITMQ_EMAIL_QUEUE", "email_queue"),
+			Host:        getEnv("RABBITMQ_HOST", "localhost"),
+			Port:        getEnvAsInt("RABBITMQ_PORT", 5672),
+			User:        getEnv("RABBITMQ_USER", "guest"),
+			Password:    getEnv("RABBITMQ_PASSWORD", "guest"),
+			VHost:       getEnv("RABBITMQ_VHOST", ""),
+			MaxRetries:  getEnvAsInt("RABBITMQ_MAX_RETRIES", 5),
+			RetryDelay:  getEnvAsDuration("RABBITMQ_RETRY_DELAY", 5*time.Second),
+			EmailQueue:  getEnv("RABBITMQ_EMAIL_QUEUE", "email_queue"),
 			AvatarQueue: getEnv("RABBITMQ_AVATAR_QUEUE", "avatar_queue"),
 		},
 		JWT: JWTConfig{
@@ -278,43 +241,16 @@ func Load() (*Config, error) {
 			RefreshTokenDuration: getEnvAsDuration("REFRESH_TOKEN_DURATION", 7*24*time.Hour),
 			Issuer:               getEnv("JWT_ISSUER", "upnixo.com"),
 		},
-		AdminJWT: JWTConfig{
-			Secret:               getEnv("ADMIN_JWT_SECRET", ""),
-			AccessTokenDuration:  getEnvAsDuration("ADMIN_ACCESS_TOKEN_DURATION", 15*time.Minute),
-			RefreshTokenDuration: getEnvAsDuration("ADMIN_REFRESH_TOKEN_DURATION", 7*24*time.Hour),
-			Issuer:               getEnv("ADMIN_JWT_ISSUER", "admin.upnixo.com"),
-		},
 		Security: SecurityConfig{
-			MaxLoginAttempts:  getEnvAsInt("MAX_LOGIN_ATTEMPTS", 5),
-			LockoutDuration:   getEnvAsDuration("LOCKOUT_DURATION", 30*time.Minute),
-			RateLimitMax:      getEnvAsInt("RATE_LIMIT_MAX", 100),
-			MaxSessions:       getEnvAsInt("MAX_SESSIONS", 5),
-			TOTPEncryptionKey: getEnv("TOTP_ENCRYPTION_KEY", "default_totp_encryption_key"),
+			MaxLoginAttempts: getEnvAsInt("MAX_LOGIN_ATTEMPTS", 5),
+			LockoutDuration:  getEnvAsDuration("LOCKOUT_DURATION", 30*time.Minute),
+			RateLimitMax:     getEnvAsInt("RATE_LIMIT_MAX", 100),
+			MaxSessions:      getEnvAsInt("MAX_SESSIONS", 5),
 		},
 		Frontend: FrontendConfig{
-			FrontendUrl:           getEnv("FRONTEND_URL", "http://localhost:3000"),
-			OAuthSuccessURL:       getEnv("OAUTH_SUCCESS_URL", "http://localhost:3000/auth/success"),
-			OAuthErrorURL:         getEnv("OAUTH_ERROR_URL", "http://localhost:3000/auth/error"),
-			VerificationUrl:       getEnv("VERIFICATION_URL", "http://localhost:3000/auth/verify"),
-			ResetUrl:              getEnv("RESET_URL", "http://localhost:3000/auth/reset"),
-			AdminResetPasswordUrl: getEnv("ADMIN_RESET_PASSWORD_URL", "http://localhost:3000/admin/reset-password"),
-			SecretResetUrl:        getEnv("SECRET_RESET_URL", "http://localhost:3000/auth/secret-reset"),
-		},
-		AWS: AWSConfig{
-			AWSAccessKey: getEnv("AWS_ACCESS_KEY_ID", ""),
-			AWSSecretKey: getEnv("AWS_SECRET_ACCESS_KEY", ""),
-			AWSRegion:    getEnv("AWS_REGION", "eu-central-1"),
-			AWSFromEmail: getEnv("AWS_FROM_EMAIL", ""),
-		},
-		Google: GoogleConfig{
-			ClientID:     getEnv("GOOGLE_CLIENT_ID", ""),
-			ClientSecret: getEnv("GOOGLE_CLIENT_SECRET", ""),
-			RedirectURL:  getEnv("GOOGLE_REDIRECT_URL", "http://localhost:8080/auth/google/callback"),
-		},
-		Github: GitHubConfig{
-			ClientID:     getEnv("GITHUB_CLIENT_ID", ""),
-			ClientSecret: getEnv("GITHUB_CLIENT_SECRET", ""),
-			RedirectURL:  getEnv("GITHUB_REDIRECT_URL", "http://localhost:8080/auth/github/callback"),
+			FrontendUrl:     getEnv("FRONTEND_URL", "http://localhost:3000"),
+			VerificationUrl: getEnv("VERIFICATION_URL", "http://localhost:3000/auth/verify"),
+			ResetUrl:        getEnv("RESET_URL", "http://localhost:3000/auth/reset"),
 		},
 		Paddle: PaddleConfig{
 			Environment:   getEnv("PADDLE_ENVIRONMENT", "sandbox"),
@@ -379,28 +315,8 @@ func Load() (*Config, error) {
 		return nil, fmt.Errorf("JWT_SECRET must be at least 32 characters")
 	}
 
-	if cfg.AdminJWT.Secret == "" {
-		return nil, fmt.Errorf("ADMIN_JWT_SECRET is required")
-	}
-
-	if len(cfg.AdminJWT.Secret) < 32 {
-		return nil, fmt.Errorf("ADMIN_JWT_SECRET must be at least 32 characters")
-	}
-
 	if cfg.App.Env == "production" && cfg.Redis.Password == "" {
 		return nil, fmt.Errorf("REDIS_PASSWORD is required in production")
-	}
-
-	if cfg.AWS.AWSAccessKey == "" {
-		return nil, fmt.Errorf("AWS_ACCESS_KEY_ID is required")
-	}
-
-	if cfg.AWS.AWSSecretKey == "" {
-		return nil, fmt.Errorf("AWS_SECRET_ACCESS_KEY is required")
-	}
-
-	if cfg.Google.ClientID == "" {
-		return nil, fmt.Errorf("GOOGLE_CLIENT_ID is required")
 	}
 
 	if cfg.Paddle.APIKey == "" {
