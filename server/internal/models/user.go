@@ -7,8 +7,6 @@ import (
 )
 
 type UserPreferences struct {
-	Theme         string `json:"theme" db:"theme"`
-	Timezone      string `json:"timezone" db:"timezone"`
 	Notifications struct {
 		Email           bool `json:"email" db:"email"`
 		WebhookFailures bool `json:"webhook_failures" db:"webhook_failures"`

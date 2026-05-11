@@ -11,8 +11,6 @@ CREATE TABLE IF NOT EXISTS users (
     is_active BOOLEAN DEFAULT TRUE NOT NULL,
     last_login_at TIMESTAMPTZ,
     preferences JSONB DEFAULT '{
-        "theme": "system",
-        "timezone": "UTC",
         "notifications": {
             "email": true,
             "webhook_failures": true
