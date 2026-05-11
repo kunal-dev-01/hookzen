@@ -48,7 +48,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <motion.div variants={itemVariants}>
           <Input
-            label="Full Name"
+            label="Full_Name"
             name="full_name"
             placeholder="ENTER_YOUR_NAME"
             register={register}
@@ -59,7 +59,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
 
         <motion.div variants={itemVariants}>
           <Input
-            label="Email Address"
+            label="Email_Address"
             name="email"
             type="email"
             placeholder="USER@SYSTEM.LOCAL"

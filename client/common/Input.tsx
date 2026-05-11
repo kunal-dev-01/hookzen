@@ -93,7 +93,7 @@ const Input = ({
             {showPassword ? (
               <EyeOpen className="w-4 h-4" />
             ) : (
-              <EyeClose className="w-4 h-4" />
+              <EyeClose className="w-4.5 h-4.5" />
             )}
           </button>
         )}
