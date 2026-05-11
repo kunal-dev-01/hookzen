@@ -120,6 +120,7 @@ export default function ResendVerify({ email, onBack }: ResendVerifyProps) {
 
         <motion.div variants={itemVariants} className="flex justify-center">
           <BackButton
+            type="button"
             onClick={onBack}
             label="ABORT_AND_RETURN"
             className="w-full flex items-center justify-center"

@@ -119,6 +119,7 @@ export default function ResetResend({ email, onBack }: ResetResendProps) {
 
         <motion.div variants={itemVariants} className="flex justify-center">
           <BackButton
+            type="button"
             onClick={onBack}
             label="RETURN_TO_LOGIN"
             className="w-full flex items-center justify-center"

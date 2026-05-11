@@ -90,6 +90,7 @@ export default function ForgotForm({ onSuccess }: ForgotFormProps) {
           className="flex items-center justify-end mt-6"
         >
           <BackButton
+            type="button"
             className="w-full flex items-center justify-center"
             label="Back_to_login"
             onClick={() => router.push("/auth/login")}
