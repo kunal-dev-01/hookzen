@@ -27,9 +27,10 @@ const (
 
 // CustomClaims is the JWT payload.
 type CustomClaims struct {
-	UserID uuid.UUID `json:"uid"`
-	Email  string    `json:"eml"`
-	Type   TokenType `json:"typ"`
+	UserID          uuid.UUID `json:"uid"`
+	Email           string    `json:"eml"`
+	Type            TokenType `json:"typ"`
+	IsEmailVerified bool      `json:"vfd"`
 	jwt.RegisteredClaims
 }
 
@@ -83,9 +84,10 @@ func (m *JWTManager) generate(user *models.User, tokenType TokenType, duration t
 	now := time.Now()
 
 	claims := CustomClaims{
-		UserID: user.ID,
-		Email:  user.Email,
-		Type:   tokenType,
+		UserID:          user.ID,
+		Email:           user.Email,
+		Type:            tokenType,
+		IsEmailVerified: user.IsEmailVerified,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    m.cfg.Issuer,
 			Subject:   user.ID.String(),
