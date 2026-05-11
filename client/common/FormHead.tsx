@@ -8,8 +8,8 @@ function FormHead({ title = "WEBHOOK GATEWAY" }) {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.2,
+        staggerChildren: 0.07,
+        delayChildren: 0,
       },
     },
   };

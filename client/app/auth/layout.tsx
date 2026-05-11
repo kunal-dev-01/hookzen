@@ -35,7 +35,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
       {/* --- LAYOUT CONTENT --- */}
       <div className="relative z-10 flex min-h-screen flex-col">
         {/* Top-Left Pinned Button Section */}
-        <header className="absolute left-0 top-0 p-6 md:p-10">
+        <header className="absolute left-0 top-0 px-12 py-6 md:p-10">
           <div className="flex flex-col gap-2">
             <BackButton type="button" label="SYS_RETURN" />
             <div className="flex items-center gap-2 px-1">
