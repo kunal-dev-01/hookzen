@@ -20,7 +20,7 @@ services:
       - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
 
     volumes:
-      - upnixo_dev_data:/var/lib/postgresql/data
+      - hookzen_dev_data:/var/lib/postgresql/data
 
     healthcheck:
       test:
