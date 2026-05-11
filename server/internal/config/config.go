@@ -21,6 +21,7 @@ type Config struct {
 	JWT      JWTConfig
 	Security SecurityConfig
 	Frontend FrontendConfig
+	Resend   ResendConfig
 	App      AppConfig
 	R2       R2Config
 	Logger   LoggerConfig
@@ -133,6 +134,14 @@ type FrontendConfig struct {
 	FrontendUrl     string
 	VerificationUrl string
 	ResetUrl        string
+}
+
+// ============================================================================
+// Resend Config
+// ============================================================================
+type ResendConfig struct {
+	APIKey    string
+	FromEmail string
 }
 
 // ============================================================================
@@ -251,6 +260,10 @@ func Load() (*Config, error) {
 			FrontendUrl:     getEnv("FRONTEND_URL", "http://localhost:3000"),
 			VerificationUrl: getEnv("VERIFICATION_URL", "http://localhost:3000/auth/verify"),
 			ResetUrl:        getEnv("RESET_URL", "http://localhost:3000/auth/reset"),
+		},
+		Resend: ResendConfig{
+			APIKey:    getEnv("RESEND_API_KEY", ""),
+			FromEmail: getEnv("RESEND_FROM_EMAIL", ""),
 		},
 		Paddle: PaddleConfig{
 			Environment:   getEnv("PADDLE_ENVIRONMENT", "sandbox"),
