@@ -34,7 +34,8 @@ func (h *AccountHandler) Register(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"message": "registration successful, please check your email for verification link",
+		"success": true,
+		"message": "registration successful — please check your email to verify your account",
 	})
 }
 
@@ -66,6 +67,7 @@ func (h *AccountHandler) VerifyEmail(c *fiber.Ctx) error {
 	setRefreshCookie(c, h.cfg, resp.RefreshToken)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"success": true,
 		"message": "email verified successfully, you are now logged in",
 		"data": fiber.Map{
 			"user":         resp.User,
@@ -90,7 +92,8 @@ func (h *AccountHandler) ResendVerification(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message": "verification email sent",
+		"success": true,
+		"message": "verification email sent successfully",
 	})
 }
 
@@ -122,6 +125,7 @@ func (h *AccountHandler) Login(c *fiber.Ctx) error {
 	setRefreshCookie(c, h.cfg, resp.RefreshToken)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"success": true,
 		"message": "login successful",
 		"data": fiber.Map{
 			"user":         resp.User,

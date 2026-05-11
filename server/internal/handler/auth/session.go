@@ -30,7 +30,8 @@ func (h *SessionHandler) ListSessions(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"data": sessions,
+		"success": true,
+		"data":    sessions,
 	})
 }
 
@@ -48,6 +49,7 @@ func (h *SessionHandler) RevokeSession(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"success": true,
 		"message": "session revoked successfully",
 	})
 }
@@ -64,6 +66,7 @@ func (h *SessionHandler) RevokeAllSessions(c *fiber.Ctx) error {
 	clearRefreshCookie(c, h.cfg)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"success": true,
 		"message": "all sessions revoked successfully",
 	})
 }
@@ -80,6 +83,7 @@ func (h *SessionHandler) Logout(c *fiber.Ctx) error {
 	clearRefreshCookie(c, h.cfg)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"success": true,
 		"message": "logged out successfully",
 	})
 }
@@ -109,6 +113,7 @@ func (h *SessionHandler) RefreshToken(c *fiber.Ctx) error {
 	setRefreshCookie(c, h.cfg, resp.RefreshToken)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"success": true,
 		"message": "token refreshed successfully",
 		"data": fiber.Map{
 			"access_token": resp.AccessToken,

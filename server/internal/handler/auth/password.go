@@ -34,7 +34,8 @@ func (h *PasswordHandler) ForgotPassword(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message": "if an account exists for this email, a reset link has been sent",
+		"success": true,
+		"message": "if an account with that email exists, a password reset link has been sent",
 	})
 }
 
@@ -57,6 +58,7 @@ func (h *PasswordHandler) ResetPassword(c *fiber.Ctx) error {
 	clearRefreshCookie(c, h.cfg)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"success": true,
 		"message": "password reset successful, all active sessions have been revoked",
 	})
 }
