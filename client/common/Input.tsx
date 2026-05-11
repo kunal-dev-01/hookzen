@@ -8,7 +8,6 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   name: string;
   variant?: "default" | "form" | "danger";
-  rounded?: string;
 }
 
 const Input = ({
@@ -19,29 +18,27 @@ const Input = ({
   error,
   name,
   disabled,
-  variant = "default",
-  rounded,
+  variant = "form", // Defaulted to form for the gateway look
   ...rest
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
 
-  const borderRadius = rounded || "rounded-full";
-
   const variantStyles = {
     default: {
-      border:
-        "border-zinc-200 dark:border-zinc-900 hover:border-zinc-300 dark:hover:border-zinc-700 focus:border-indigo-600 dark:focus:border-indigo-400",
-      ring: "focus:ring-indigo-600/10 dark:focus:ring-indigo-400/20",
+      border: "border-zinc-800 hover:border-zinc-700 focus:border-zinc-500",
+      bg: "bg-transparent",
+      label: "text-zinc-500",
     },
     form: {
-      border:
-        "border-zinc-200 dark:border-zinc-900 hover:border-zinc-300 dark:hover:border-zinc-700 focus:border-zinc-800 dark:focus:border-white",
-      ring: "focus:ring-zinc-800/5 dark:focus:ring-white/10",
+      border: "border-zinc-800 focus:border-white hover:border-zinc-600",
+      bg: "bg-[#0a0c0f]", // Matching your specific background
+      label: "text-zinc-400",
     },
     danger: {
-      border: "border-red-500 focus:border-red-500",
-      ring: "focus:ring-red-500/10 dark:focus:ring-red-500/20",
+      border: "border-red-900 focus:border-red-500",
+      bg: "bg-red-500/5",
+      label: "text-red-500",
     },
   };
 
@@ -49,15 +46,21 @@ const Input = ({
   const styles = variantStyles[currentVariant];
 
   return (
-    <div className="flex flex-col gap-1.5 w-full">
-      <label
-        htmlFor={name}
-        className="text-sm font-medium text-zinc-700 dark:text-zinc-300 ml-1"
-      >
-        {label}
-      </label>
+    <div className="flex flex-col gap-2 w-full group/container">
+      {/* Label with a more technical look */}
+      <div className="flex items-center gap-2">
+        <div
+          className={`h-1 w-1 ${error ? "bg-red-500" : "bg-zinc-700"} group-focus-within/container:bg-white transition-colors`}
+        />
+        <label
+          htmlFor={name}
+          className={`text-[10px] font-bold tracking-[0.2em] uppercase ${styles.label} group-focus-within/container:text-white transition-colors`}
+        >
+          {label}
+        </label>
+      </div>
 
-      <div className="relative group">
+      <div className="relative overflow-hidden">
         <input
           id={name}
           disabled={disabled}
@@ -66,36 +69,42 @@ const Input = ({
           {...rest}
           {...register(name)}
           className={`
-            w-full px-5 py-2.5 text-sm font-semibold border-2 outline-none transition-all duration-300 focus:ring-4
-            ${borderRadius} 
+            w-full px-4 py-2 text-sm font-medium border outline-none transition-all duration-200
+            rounded-none 
             ${isPassword ? "pr-12" : ""} 
             ${styles.border} 
-            ${styles.ring}
-            text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 
-            disabled:cursor-not-allowed disabled:bg-zinc-100 dark:disabled:bg-zinc-800 disabled:text-zinc-500 dark:disabled:text-zinc-600
+            ${styles.bg}
+            text-zinc-100 placeholder:text-zinc-700 
+            disabled:cursor-not-allowed disabled:opacity-50
+            relative z-10
           `}
         />
+
+        {/* Focus Glow / Scanline effect */}
+        <div className="absolute bottom-0 left-0 h-px w-0 bg-white z-20 transition-all duration-300 group-focus-within/container:w-full" />
 
         {isPassword && (
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
             tabIndex={-1}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-1 text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-1.5 text-zinc-600 hover:text-white transition-colors focus:outline-none"
           >
             {showPassword ? (
-              <EyeOpen className="w-5 h-5" />
+              <EyeOpen className="w-4 h-4" />
             ) : (
-              <EyeClose className="w-5.5 h-5.5" />
+              <EyeClose className="w-4 h-4" />
             )}
           </button>
         )}
       </div>
 
       {error && (
-        <span className="text-[13px] text-red-500 mt-0.5 ml-1 font-medium">
-          {error}
-        </span>
+        <div className="flex items-center gap-1.5 mt-1">
+          <span className="text-[10px] font-bold text-red-500 tracking-tighter uppercase italic">
+            [!] Error: {error}
+          </span>
+        </div>
       )}
     </div>
   );
