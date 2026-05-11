@@ -1,15 +1,10 @@
 "use client";
-
-import { toast } from "sonner";
-
-const click = () => toast.success("Success");
+import BackButton from "@/common/BackButton";
 
 function Home() {
   return (
-    <div>
-      <div className="">
-        <button onClick={click}>Click</button>
-      </div>
+    <div className="w-full flex items-center p-5">
+      <BackButton />
     </div>
   );
 }
