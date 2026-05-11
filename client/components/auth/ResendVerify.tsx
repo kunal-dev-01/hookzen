@@ -1,11 +1,11 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { useResendVerification } from "@/hooks/useAuth";
 import CountdownButton from "@/common/CountdownButton";
 import BackButton from "@/common/BackButton";
 import FormHead from "@/common/FormHead";
 import { Mail } from "@/svg/Common";
+import { containerVariants, itemVariants } from "@/animation/form";
 
 interface ResendVerifyProps {
   email: string;
@@ -27,75 +27,105 @@ export default function ResendVerify({ email, onBack }: ResendVerifyProps) {
   }, [countdown]);
 
   const handleResend = () => {
-    resend(
-      { email },
-      {
-        onSuccess: () => {
-          setCountdown(60); // 60 seconds cooldown
-        },
-      },
-    );
+    resend({ email }, { onSuccess: () => setCountdown(60) });
   };
 
   return (
-    <div className="w-full max-w-md space-y-8 animate-in fade-in zoom-in-95 duration-500">
-      <FormHead title="VERIFY EMAIL" />
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="w-full max-w-md space-y-8"
+    >
+      <FormHead title="VERIFY_IDENTITY" />
 
       <div className="space-y-6">
-        <div className="flex flex-col items-center justify-center p-8 border border-zinc-800 bg-black/50 relative group">
-          <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+        <motion.div
+          variants={itemVariants}
+          className="relative p-6 border-l-2 border-cyan-500 bg-zinc-900/30 overflow-hidden"
+        >
+          {/* Decorative scanner line */}
+          <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-cyan-500/50 to-transparent" />
 
-          <div className="relative z-10 flex flex-col items-center text-center space-y-4">
-            <div className="p-4 rounded-full bg-zinc-900 border border-zinc-800 text-cyan-500 shadow-[0_0_20px_rgba(34,211,238,0.1)]">
-              <Mail className="w-8 h-8" />
+          <div className="flex items-start gap-5 relative z-10">
+            <div className="shrink-0">
+              <div className="p-3 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
+                <Mail className="w-6 h-6 animate-pulse" />
+              </div>
             </div>
 
-            <div className="space-y-2">
-              <h3 className="text-sm font-bold text-white tracking-[0.2em] uppercase">
-                Verification Link Sent
-              </h3>
-              <p className="text-[11px] text-zinc-500 font-medium leading-relaxed tracking-wider">
-                We've dispatched a secure transmission to:
-                <br />
-                <span className="text-cyan-400 font-mono mt-1 inline-block uppercase">
-                  {email}
-                </span>
-              </p>
+            <div className="space-y-3">
+              <div>
+                <h3 className="text-[10px] font-black text-cyan-500 tracking-[0.3em] uppercase mb-1">
+                  Status: DISPATCHED
+                </h3>
+                <p className="text-[12px] text-zinc-300 font-mono break-all leading-tight">
+                  Target_Node: <span className="text-white">{email}</span>
+                </p>
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="h-1 w-4 bg-cyan-500/40" />
+                  ))}
+                </div>
+                <p className="text-[9px] text-zinc-500 uppercase tracking-tighter italic">
+                  // Secure_transmission_in_progress
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         <div className="space-y-4">
-          <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest text-center italic">
-            Check your inbox (and spam) to complete activation.
-          </p>
+          <motion.div
+            variants={itemVariants}
+            className="bg-zinc-900/20 p-3 border border-zinc-800"
+          >
+            <p className="text-[9px] text-zinc-500 font-mono leading-relaxed text-center">
+              [SYSTEM_MESSAGE]: Check your inbox or spam directory. Remote
+              activation link expires in 24 hours.
+            </p>
+          </motion.div>
 
-          <CountdownButton
-            onClick={handleResend}
-            isLoading={isPending}
-            countdown={countdown}
-            defaultText="RESEND_VERIFICATION_LINK"
-            countdownText={(sec) => `SYSTEM_LOCKOUT: ${sec}S`}
-            className="h-12 border border-zinc-800 hover:border-cyan-500/50"
-          />
+          <motion.div variants={itemVariants}>
+            <CountdownButton
+              onClick={handleResend}
+              isLoading={isPending}
+              countdown={countdown}
+            />
+          </motion.div>
 
           {error && (
-            <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-bold uppercase tracking-wider italic text-center">
-              [!] TRANSMISSION_FAILURE: {error.message}
-            </div>
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="p-3 bg-red-500/10 border-l-2 border-red-500 text-red-500 text-[10px] font-mono uppercase tracking-wider"
+            >
+              {">"} ERROR: {error.message}
+            </motion.div>
           )}
 
           {isSuccess && !countdown && (
-            <div className="p-3 bg-green-500/10 border border-green-500/20 text-green-500 text-[10px] font-bold uppercase tracking-wider italic text-center">
-              [+] NEW_LINK_DISPATCHED_SUCCESSFULLY
-            </div>
+            <motion.div
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="p-3 bg-cyan-500/10 border-l-2 border-cyan-500 text-cyan-400 text-[10px] font-mono uppercase tracking-wider"
+            >
+              {">"} SUCCESS: NEW_LINK_SENT
+            </motion.div>
           )}
         </div>
 
-        <div className="pt-4 flex justify-center">
-          <BackButton onClick={onBack} label="BACK_TO_REGISTRATION" />
-        </div>
+        <motion.div variants={itemVariants} className="flex justify-center">
+          <BackButton
+            onClick={onBack}
+            label="ABORT_AND_RETURN"
+            className="w-full flex items-center justify-center"
+          />
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
