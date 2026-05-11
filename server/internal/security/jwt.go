@@ -21,8 +21,8 @@ import (
 type TokenType string
 
 const (
-	TokenAccess       TokenType = "access"
-	TokenRefresh      TokenType = "refresh"
+	TokenAccess  TokenType = "access"
+	TokenRefresh TokenType = "refresh"
 )
 
 // CustomClaims is the JWT payload.

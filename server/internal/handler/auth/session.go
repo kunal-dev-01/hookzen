@@ -2,6 +2,7 @@ package handler
 
 import (
 	"server/internal/config"
+	"server/internal/dto"
 	"server/internal/middleware"
 	"server/internal/service/auth"
 	"server/internal/utils"
@@ -80,5 +81,37 @@ func (h *SessionHandler) Logout(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "logged out successfully",
+	})
+}
+
+// RefreshToken handles token rotation and issuance of new access tokens
+func (h *SessionHandler) RefreshToken(c *fiber.Ctx) error {
+	token := c.Cookies("refresh_token")
+	if token == "" {
+		return utils.Unauthorized("refresh token is missing")
+	}
+
+	clientInfo := dto.ClientInfo{
+		IP:         c.IP(),
+		Browser:    c.Get("User-Agent"),
+		OS:         c.Get("X-OS"),
+		DeviceName: c.Get("X-Device"),
+	}
+
+	resp, err := h.service.RefreshToken(c.Context(), token, clientInfo)
+	if err != nil {
+		// If refresh fails, clear the stale cookie
+		clearRefreshCookie(c, h.cfg)
+		return err
+	}
+
+	// Rotate cookie
+	setRefreshCookie(c, h.cfg, resp.RefreshToken)
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "token refreshed successfully",
+		"data": fiber.Map{
+			"access_token": resp.AccessToken,
+		},
 	})
 }
