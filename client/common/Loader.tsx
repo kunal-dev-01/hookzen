@@ -1,51 +1,39 @@
-// Loader.tsx
 import { memo } from "react";
 
 export const Loader = memo(
-  ({ className = "w-5 h-5 text-white" }: { className?: string }) => (
+  ({ className = "w-4 h-4 text-cyan-500" }: { className?: string }) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="100%"
-      height="100%"
       viewBox="0 0 24 24"
       className={className}
     >
-      <g stroke="currentColor">
-        <circle
-          cx="12"
-          cy="12"
-          r="9.5"
-          fill="none"
-          strokeLinecap="round"
-          strokeWidth="3"
-        >
-          <animate
-            attributeName="stroke-dasharray"
-            calcMode="spline"
-            dur="1.5s"
-            keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1"
-            keyTimes="0;0.475;0.95;1"
-            repeatCount="indefinite"
-            values="0 150;42 150;42 150;42 150"
-          />
-          <animate
-            attributeName="stroke-dashoffset"
-            calcMode="spline"
-            dur="1.5s"
-            keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1"
-            keyTimes="0;0.475;0.95;1"
-            repeatCount="indefinite"
-            values="0;-16;-59;-59"
-          />
-        </circle>
-        <animateTransform
-          attributeName="transform"
-          dur="2s"
+      {/* 3 Digital Blocks Loading Effect */}
+      <rect x="2" y="2" width="6" height="20" fill="currentColor">
+        <animate
+          attributeName="opacity"
+          values="0.2;1;0.2"
+          dur="0.6s"
           repeatCount="indefinite"
-          type="rotate"
-          values="0 12 12;360 12 12"
         />
-      </g>
+      </rect>
+      <rect x="9" y="2" width="6" height="20" fill="currentColor">
+        <animate
+          attributeName="opacity"
+          values="0.2;1;0.2"
+          dur="0.6s"
+          begin="0.2s"
+          repeatCount="indefinite"
+        />
+      </rect>
+      <rect x="16" y="2" width="6" height="20" fill="currentColor">
+        <animate
+          attributeName="opacity"
+          values="0.2;1;0.2"
+          dur="0.6s"
+          begin="0.4s"
+          repeatCount="indefinite"
+        />
+      </rect>
     </svg>
   ),
 );
