@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"server/internal/config"
 	"server/internal/dto"
 	"server/internal/service/auth"
 	"server/internal/utils"
@@ -9,11 +10,12 @@ import (
 )
 
 type PasswordHandler struct {
+	cfg     *config.Config
 	service *service.PasswordService
 }
 
-func NewPasswordHandler(s *service.PasswordService) *PasswordHandler {
-	return &PasswordHandler{service: s}
+func NewPasswordHandler(cfg *config.Config, s *service.PasswordService) *PasswordHandler {
+	return &PasswordHandler{cfg: cfg, service: s}
 }
 
 // ForgotPassword handles the request to send a reset link
@@ -52,7 +54,7 @@ func (h *PasswordHandler) ResetPassword(c *fiber.Ctx) error {
 	}
 
 	// Also clear session cookies on the client side if they exist
-	c.ClearCookie("refresh_token")
+	clearRefreshCookie(c, h.cfg)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "password reset successful, all active sessions have been revoked",

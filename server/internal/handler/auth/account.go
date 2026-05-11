@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"time"
-
 	"server/internal/config"
 	"server/internal/dto"
 	"server/internal/service/auth"
@@ -65,7 +63,7 @@ func (h *AccountHandler) VerifyEmail(c *fiber.Ctx) error {
 	}
 
 	// Set refresh token in cookie for auto-login
-	h.setRefreshCookie(c, resp.RefreshToken)
+	setRefreshCookie(c, h.cfg, resp.RefreshToken)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "email verified successfully, you are now logged in",
@@ -121,7 +119,7 @@ func (h *AccountHandler) Login(c *fiber.Ctx) error {
 	}
 
 	// Set refresh token in cookie
-	h.setRefreshCookie(c, resp.RefreshToken)
+	setRefreshCookie(c, h.cfg, resp.RefreshToken)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "login successful",
@@ -129,17 +127,5 @@ func (h *AccountHandler) Login(c *fiber.Ctx) error {
 			"user":         resp.User,
 			"access_token": resp.AccessToken,
 		},
-	})
-}
-
-func (h *AccountHandler) setRefreshCookie(c *fiber.Ctx, token string) {
-	c.Cookie(&fiber.Cookie{
-		Name:     "refresh_token",
-		Value:    token,
-		Expires:  time.Now().Add(h.cfg.JWT.RefreshTokenDuration),
-		HTTPOnly: true,
-		Secure:   h.cfg.App.IsProduction(),
-		SameSite: "Lax",
-		Path:     "/",
 	})
 }
