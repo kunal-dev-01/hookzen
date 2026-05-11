@@ -70,6 +70,7 @@ func (s *AccountService) Register(ctx context.Context, req dto.RegisterRequest) 
 		Email:        user.Email,
 		PasswordHash: user.PasswordHash,
 		FullName:     user.FullName,
+		IsActive:     user.IsActive,
 	}
 
 	_, err = s.userRepo.Create(ctx, params)

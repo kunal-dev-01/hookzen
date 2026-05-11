@@ -36,6 +36,7 @@ type CreateUserParams struct {
 	Email        string
 	PasswordHash string
 	FullName     string
+	IsActive     bool
 }
 
 type UpdateUserParams struct {
@@ -67,8 +68,8 @@ func NewUserRepository(log *utils.Logger) UserRepository {
 // Create inserts a new user into the database
 func (r *userRepo) Create(ctx context.Context, params CreateUserParams) (*models.User, error) {
 	sql := `
-		INSERT INTO users (id, email, password_hash, full_name)
-		VALUES (@id, @email, @password_hash, @full_name)
+		INSERT INTO users (id, email, password_hash, full_name, is_active)
+		VALUES (@id, @email, @password_hash, @full_name, @is_active)
 		RETURNING ` + userColumns
 
 	args := pgx.NamedArgs{
@@ -76,6 +77,7 @@ func (r *userRepo) Create(ctx context.Context, params CreateUserParams) (*models
 		"email":         params.Email,
 		"password_hash": params.PasswordHash,
 		"full_name":     params.FullName,
+		"is_active":     params.IsActive,
 	}
 
 	rows, err := db.Pool.Query(ctx, sql, args)

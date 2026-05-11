@@ -31,7 +31,7 @@ type SessionMetadata struct {
 	Browser      string    `json:"browser"`
 	OS           string    `json:"os"`
 	DeviceName   string    `json:"device_name"`
-	City         string    `json:"city"`
+	City       string    `json:"city"`
 	Country      string    `json:"country"`
 	CreatedAt    time.Time `json:"created_at"`
 	ExpiresAt    time.Time `json:"expires_at"`
@@ -64,6 +64,7 @@ type SafeSession struct {
 	ExpiresAt  time.Time `json:"expires_at"`
 	IsCurrent  bool      `json:"is_current"`
 }
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Account Requests
 // ─────────────────────────────────────────────────────────────────────────────
@@ -91,4 +92,17 @@ type AuthResponse struct {
 	User         models.SafeUser `json:"user"`
 	AccessToken  string          `json:"access_token"`
 	RefreshToken string          `json:"refresh_token"`
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Password Reset Requests
+// ─────────────────────────────────────────────────────────────────────────────
+
+type ForgotPasswordRequest struct {
+	Email string `json:"email" validate:"required,email"`
+}
+
+type ResetPasswordRequest struct {
+	Token    string `json:"token" validate:"required"`
+	Password string `json:"password" validate:"required,min=8,max=72"`
 }
