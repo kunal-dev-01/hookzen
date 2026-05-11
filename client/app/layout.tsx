@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { ThemeProvider } from "next-themes";
 import { Providers } from "./provider";
 import { AppToaster } from "@/utils/app-toaster";
 import "./globals.css";
@@ -27,10 +26,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Providers>{children}</Providers>
-          <AppToaster />
-        </ThemeProvider>
+        <Providers>{children}</Providers>
+        <AppToaster />
       </body>
     </html>
   );
