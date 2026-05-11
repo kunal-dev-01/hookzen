@@ -155,7 +155,7 @@ type ValidationResult struct {
 }
 
 // ValidateStruct validates a struct and returns detailed result
-func ValidateStruct(s interface{}) *ValidationResult {
+func ValidateStruct(s any) *ValidationResult {
 	err := GetValidator().Struct(s)
 	if err == nil {
 		return &ValidationResult{Valid: true}
@@ -190,7 +190,7 @@ func ValidateStruct(s interface{}) *ValidationResult {
 }
 
 // ValidateStructToAppError validates and returns AppError if invalid
-func ValidateStructToAppError(s interface{}) *AppError {
+func ValidateStructToAppError(s any) *AppError {
 	result := ValidateStruct(s)
 	if result.Valid {
 		return nil
@@ -199,7 +199,7 @@ func ValidateStructToAppError(s interface{}) *AppError {
 }
 
 // ValidateVar validates a single variable against a tag
-func ValidateVar(field interface{}, tag string) error {
+func ValidateVar(field any, tag string) error {
 	return GetValidator().Var(field, tag)
 }
 
