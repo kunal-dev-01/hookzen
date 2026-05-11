@@ -1,20 +1,10 @@
-<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <style>
-    /* Default (Light mode) ke liye dark color */
-    .logo-path {
-      fill: #1D1D1D;
-    }
-    
-    /* Dark mode aate hi ye apne aap pure white ho jayega */
-    @media (prefers-color-scheme: dark) {
-      .logo-path {
-        fill: #FFFFFF;
-      }
-    }
-  </style>
-
-  <!-- Maine yahan se purana fill="..." hata kar class="logo-path" laga diya hai -->
-  <path class="logo-path" d="M198 106.98C198 72.7494 225.749 45 259.98 45C294.211 45 321.96 72.7494 321.96 106.98V632.279C321.96 654.37 304.051 672.279 281.96 672.279H198V106.98Z" />
-  <path class="logo-path" d="M653.7 131.182C653.7 83.5848 692.285 45 739.882 45C787.479 45 826.064 83.5848 826.064 131.182V672.279H743.7C693.995 672.279 653.7 631.985 653.7 582.279V131.182Z" />
-  <path class="logo-path" d="M512.032 365.558C685.467 365.558 826.063 502.882 826.063 672.279C826.063 841.676 685.467 979 512.032 979C338.597 979 198 841.676 198 672.279C198 502.882 338.597 365.558 512.032 365.558ZM512 504C436.889 504 376 578.992 376 671.5C376 764.008 436.889 839 512 839C587.111 839 648 764.008 648 671.5C648 578.992 587.111 504 512 504Z" />
-</svg>
+<svg width="400" xmlns="http://www.w3.org/2000/svg" height="400" id="screenshot-217e4b60-e289-8094-8008-00ad7b1ac242" viewBox="0 0 400 400" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1"><style>/* latin */
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 700;
+  font-display: block;
+  src: url(http://penpot-frontend:8080/internal/gfonts/font/orbitron/v35/yMJMMIlzdpvBhQQL_SC3X9yhF25-T1ny_CmBoWgz.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style><g id="shape-217e4b60-e289-8094-8008-00ad7b1ac242"><defs><clipPath id="frame-clip-217e4b60-e289-8094-8008-00ad7b1ac242-render-1" class="frame-clip frame-clip-def"><rect rx="0" ry="0" x="0" y="0" width="400" height="400" transform="matrix(1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000)"/></clipPath></defs><g class="frame-container-wrapper"><g class="frame-container-blur"><g class="frame-container-shadows"><g clip-path="url(#frame-clip-217e4b60-e289-8094-8008-00ad7b1ac242-render-1)" fill="none"><g class="fills" id="fills-217e4b60-e289-8094-8008-00ad7b1ac242"><rect rx="0" ry="0" x="0" y="0" width="400" height="400" transform="matrix(1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000)" class="frame-background"/></g><g class="frame-children"><g id="shape-217e4b60-e289-8094-8008-00adaca8a7e6"><g transform="matrix(1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000)" class="text-container" x="10" y="-80" width="380" height="480" rx="0" ry="0"><defs><pattern patternUnits="objectBoundingBox" width="379.203125" height="501" id="fill-0-render-2-0"><g><rect width="379.203125" height="501" style="fill: rgb(0, 255, 65); fill-opacity: 1;"/></g></pattern></defs><g class="fills" id="fills-217e4b60-e289-8094-8008-00adaca8a7e6"><text x="10" y="410" dominant-baseline="ideographic" textLength="379.203125" lengthAdjust="spacingAndGlyphs" style="text-transform: none; font-family: Orbitron; letter-spacing: normal; font-style: normal; font-weight: 700; white-space: pre; font-size: 400px; text-decoration: none; direction: ltr; fill: rgb(0, 255, 65); fill-opacity: 1;">&lt;&gt;</text></g></g></g></g></g></g></g></g></g></svg>
