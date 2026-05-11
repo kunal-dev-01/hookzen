@@ -81,19 +81,30 @@ func (s *AccountService) Register(ctx context.Context, req dto.RegisterRequest) 
 	return s.sendVerificationEmail(ctx, user.ID, user.Email)
 }
 
-// VerifyEmail marks user as verified using token
-func (s *AccountService) VerifyEmail(ctx context.Context, token string) error {
+// VerifyEmail marks user as verified and returns auth response for auto-login
+func (s *AccountService) VerifyEmail(ctx context.Context, token string, clientInfo dto.ClientInfo) (*dto.AuthResponse, error) {
 	userIDStr, err := s.tokens.ConsumeEmailVerifyToken(ctx, token)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	userID, err := uuid.Parse(userIDStr)
 	if err != nil {
-		return utils.Internal(err)
+		return nil, utils.Internal(err)
 	}
 
-	return s.userRepo.VerifyEmail(ctx, userID)
+	if err := s.userRepo.VerifyEmail(ctx, userID); err != nil {
+		return nil, err
+	}
+
+	// 2. Fetch user to generate tokens
+	user, err := s.userRepo.GetByID(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	// 3. Create session and return auth response
+	return s.createSession(ctx, user, clientInfo)
 }
 
 // ResendVerification sends a new verification link
@@ -146,6 +157,12 @@ func (s *AccountService) Login(ctx context.Context, req dto.LoginRequest, client
 	s.tokens.ClearLoginAttempts(ctx, req.Email)
 
 	// 6. Create session
+	return s.createSession(ctx, user, clientInfo)
+}
+
+// createSession is a helper to centralize session creation logic
+func (s *AccountService) createSession(ctx context.Context, user *models.User, clientInfo dto.ClientInfo) (*dto.AuthResponse, error) {
+	// 1. Create session metadata
 	sessionID, err := security.GenerateSessionID()
 	if err != nil {
 		return nil, err
@@ -175,7 +192,7 @@ func (s *AccountService) Login(ctx context.Context, req dto.LoginRequest, client
 		return nil, err
 	}
 
-	// 7. Update last login (background)
+	// 2. Update last login in background
 	go s.userRepo.UpdateLastLogin(context.Background(), user.ID, clientInfo.IP)
 
 	return &dto.AuthResponse{

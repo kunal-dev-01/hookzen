@@ -40,7 +40,7 @@ func (h *AccountHandler) Register(c *fiber.Ctx) error {
 	})
 }
 
-// VerifyEmail handles email verification
+// VerifyEmail handles email verification and auto-login
 func (h *AccountHandler) VerifyEmail(c *fiber.Ctx) error {
 	var req dto.VerifyEmailRequest
 	if err := c.BodyParser(&req); err != nil {
@@ -51,12 +51,28 @@ func (h *AccountHandler) VerifyEmail(c *fiber.Ctx) error {
 		return err
 	}
 
-	if err := h.service.VerifyEmail(c.Context(), req.Token); err != nil {
+	// Capture client info for auto-login session
+	clientInfo := dto.ClientInfo{
+		IP:         c.IP(),
+		Browser:    c.Get("User-Agent"),
+		OS:         c.Get("X-OS"),
+		DeviceName: c.Get("X-Device"),
+	}
+
+	resp, err := h.service.VerifyEmail(c.Context(), req.Token, clientInfo)
+	if err != nil {
 		return err
 	}
 
+	// Set refresh token in cookie for auto-login
+	h.setRefreshCookie(c, resp.RefreshToken)
+
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message": "email verified successfully, you can now log in",
+		"message": "email verified successfully, you are now logged in",
+		"data": fiber.Map{
+			"user":         resp.User,
+			"access_token": resp.AccessToken,
+		},
 	})
 }
 
