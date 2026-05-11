@@ -1,14 +1,13 @@
-import { Check } from '@/svg/Common';
-import { memo, useMemo } from 'react';
+import { memo, useMemo } from "react";
 
 interface PasswordStrengthProps {
   password?: string;
 }
 
 const PasswordStrength = memo(({ password = "" }: PasswordStrengthProps) => {
-  const { level, text, color, textColor } = useMemo(() => {
-    if (!password) return { level: 0, text: '', color: '', textColor: '' };
-    
+  const { level, text, color, width } = useMemo(() => {
+    if (!password) return { level: 0, text: "", color: "", width: "0%" };
+
     let score = 0;
     if (password.length >= 8) score += 1;
     if (/[A-Z]/.test(password)) score += 1;
@@ -16,64 +15,53 @@ const PasswordStrength = memo(({ password = "" }: PasswordStrengthProps) => {
     if (/[0-9]/.test(password)) score += 1;
     if (/[^A-Za-z0-9]/.test(password)) score += 1;
 
-    if (score <= 2) return { level: 1, text: 'Weak', color: 'bg-red-500', textColor: 'text-red-500' };
-    if (score <= 3) return { level: 2, text: 'Fair', color: 'bg-orange-500', textColor: 'text-orange-500' };
-    if (score <= 4) return { level: 3, text: 'Good', color: 'bg-yellow-500', textColor: 'text-yellow-500' };
-    return { level: 4, text: 'Strong', color: 'bg-green-500', textColor: 'text-green-500' };
+    // Hacker theme colors: Red -> Yellow -> Cyan (for strong)
+    if (score <= 2)
+      return {
+        level: 1,
+        text: "VULNERABLE",
+        color: "bg-red-500",
+        width: "25%",
+      };
+    if (score <= 3)
+      return { level: 2, text: "FAIR", color: "bg-orange-500", width: "50%" };
+    if (score <= 4)
+      return { level: 3, text: "SECURE", color: "bg-yellow-500", width: "75%" };
+    return { level: 4, text: "ENCRYPTED", color: "bg-cyan-500", width: "100%" };
   }, [password]);
 
   if (!password) return null;
 
-  const requirements = [
-    { met: password.length >= 8, text: "8+ chars" },
-    { met: /[A-Z]/.test(password), text: "Uppercase" },
-    { met: /[a-z]/.test(password), text: "Lowercase" },
-    { met: /[0-9]/.test(password), text: "Number" },
-    { met: /[^A-Za-z0-9]/.test(password), text: "Special char" }
-  ];
-
   return (
-    <div className="flex flex-col gap-2 w-full px-1 mt-2 transition-all duration-300">
-      
-      {/* Header & Bars */}
-      <div className="flex items-center justify-between text-[11px] font-medium px-1">
-        <span className="text-zinc-500 dark:text-zinc-400">Password strength</span>
-        <span className={textColor}>{text}</span>
-      </div>
-      
-      <div className="flex gap-1.5 px-1">
-        {[1, 2, 3, 4].map((idx) => (
-          <div
-            key={idx}
-            className={`h-1 flex-1 rounded-full transition-colors duration-500 ${
-              idx <= level ? color : 'bg-zinc-200 dark:bg-zinc-800'
-            }`}
-          />
-        ))}
+    <div className="flex flex-col gap-1.5 w-full mt-3 font-mono">
+      {/* Header with Hacker Labels */}
+      <div className="flex items-center justify-between text-[10px] tracking-widest uppercase">
+        <span className="text-zinc-500">Security_Level:</span>
+        <span className={level === 4 ? "text-cyan-400" : "text-zinc-400"}>
+          {text} [{width}]
+        </span>
       </div>
 
-      {/* Badge Style Checklist */}
-      <div className="flex flex-wrap gap-2 mt-1">
-        {requirements.map((req, i) => (
-          <div 
-            key={i} 
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium border transition-all duration-300 ${
-              req.met 
-                ? 'bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500/20 text-green-600 dark:text-green-400' 
-                : 'bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700/50 text-zinc-500 dark:text-zinc-400'
-            }`}
-          >
-            {req.met ? (
-             <Check className="w-3.5 h-3.5 text-green-500" />
-            ) : (
-              // Neutral Dot Icon
-              <div className="w-1 h-1 rounded-full bg-current opacity-60 shrink-0" />
-            )}
-            {req.text}
-          </div>
-        ))}
+      {/* Main Single Bar Meter */}
+      <div className="relative h-[4px] w-full bg-zinc-900 border border-zinc-800 overflow-hidden">
+        {/* Dynamic Strength Fill */}
+        <div
+          className={`h-full transition-all duration-700 ease-out ${color} ${
+            level === 4 ? "shadow-[0_0_10px_#22d3ee]" : ""
+          }`}
+          style={{ width: width }}
+        />
+
+        {/* Background Grid/Scanline on the bar for detail */}
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.4)_1px,transparent_1px)] bg-size-[4px_100%] pointer-events-none" />
       </div>
-      
+
+      {/* Subtle Hint */}
+      <div className="text-[9px] text-zinc-600 uppercase tracking-tighter italic">
+        {level < 4
+          ? "// Add special chars for maximum entropy"
+          : "// System integrity verified"}
+      </div>
     </div>
   );
 });
