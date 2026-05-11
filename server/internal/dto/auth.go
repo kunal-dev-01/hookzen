@@ -1,6 +1,10 @@
 package dto
 
-import "time"
+import (
+	"time"
+
+	"server/internal/models"
+)
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Client Info Dto
@@ -59,4 +63,32 @@ type SafeSession struct {
 	CreatedAt  time.Time `json:"created_at"`
 	ExpiresAt  time.Time `json:"expires_at"`
 	IsCurrent  bool      `json:"is_current"`
+}
+// ─────────────────────────────────────────────────────────────────────────────
+// Account Requests
+// ─────────────────────────────────────────────────────────────────────────────
+
+type RegisterRequest struct {
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required,min=8,max=72"`
+	FullName string `json:"full_name" validate:"required,min=2,max=100"`
+}
+
+type LoginRequest struct {
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required"`
+}
+
+type VerifyEmailRequest struct {
+	Token string `json:"token" validate:"required"`
+}
+
+type ResendVerificationRequest struct {
+	Email string `json:"email" validate:"required,email"`
+}
+
+type AuthResponse struct {
+	User         models.SafeUser `json:"user"`
+	AccessToken  string          `json:"access_token"`
+	RefreshToken string          `json:"refresh_token"`
 }
