@@ -56,6 +56,15 @@ export default function LoginForm() {
             error={errors.password?.message}
             disabled={isPending}
           />
+
+          <div className="flex items-center justify-end mt-6">
+            <Link
+              href="/auth/forgot"
+              className="text-[10px] text-zinc-500 uppercase hover:text-cyan-500 transition-colors"
+            >
+              //Forgot_Password?
+            </Link>
+          </div>
         </motion.div>
 
         {error && (
@@ -70,7 +79,7 @@ export default function LoginForm() {
 
         <motion.div variants={itemVariants} className="mt-8">
           <Submit type="submit" loading={isPending}>
-            ESTABLISH_CONNECTION
+            LOGIN_ACCESS
           </Submit>
         </motion.div>
 
