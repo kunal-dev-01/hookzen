@@ -170,7 +170,7 @@
         </p>
 
         <div style="margin-bottom: 10px !important">
-          <a href="{{reset_link}}" class="reset-button">
+          <a href="{{.reset_link}}" class="reset-button">
             EXECUTE_CRED_RESET_
           </a>
         </div>
@@ -182,7 +182,7 @@
             margin-bottom: 30px !important;
           "
         >
-          Cipher: Argon2id | Request_ID: {{request_id}}
+          Cipher: Argon2id | Request_ID: {{.request_id}}
         </div>
 
         <div class="security-box">
@@ -265,7 +265,7 @@
             padding-top: 15px !important;
           "
         >
-          TERMINAL_BYPASS: curl -X POST "{{reset_link}}" -H "X-Action: Reset"
+          TERMINAL_BYPASS: curl -X POST "{{.reset_link}}" -H "X-Action: Reset"
         </div>
       </div>
     </div>

@@ -170,7 +170,7 @@
         </p>
 
         <div style="margin-bottom: 10px !important">
-          <a href="{{verify_link}}" class="verify-button">
+          <a href="{{.verify_link}}" class="verify-button">
             EXECUTE_SIGNATURE_AUTH_
           </a>
         </div>
@@ -182,7 +182,7 @@
             margin-bottom: 30px !important;
           "
         >
-          Handshake ID: SHA256-{{id}} | 24H_EXPIRY
+          Handshake ID: SHA256-{{.id}} | 24H_EXPIRY
         </div>
 
         <div class="infra-stats-box">
@@ -266,7 +266,7 @@
             padding-top: 15px !important;
           "
         >
-          TERMINAL_RECOVERY: curl -X POST "{{verify_link}}"
+          TERMINAL_RECOVERY: curl -X POST "{{.verify_link}}"
         </div>
       </div>
     </div>
