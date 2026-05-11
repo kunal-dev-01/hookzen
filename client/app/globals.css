@@ -57,7 +57,7 @@
   --font-sans: "JetBrainsMono", monospace;
   --font-heading: "Orbitron", sans-serif;
 
-  --bg-primary: #0a0c0f;
+  --bg-primary: #000000;
   --bg-secondary: #14171c;
   --text-primary: #f0f2f5;
   --text-secondary: #71767b;
@@ -105,7 +105,7 @@ h4 {
    =============================== */
 
 [data-sonner-toast] {
-  background: #0a0c0f !important;
+  background: #000000 !important;
   color: #00ff41 !important;
   border: 1px solid #2d333b !important;
   border-radius: 2px !important;

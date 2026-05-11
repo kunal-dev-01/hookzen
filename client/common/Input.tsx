@@ -32,7 +32,7 @@ const Input = ({
     },
     form: {
       border: "border-zinc-800 focus:border-white hover:border-zinc-600",
-      bg: "bg-[#0a0c0f]", // Matching your specific background
+      bg: "bg-black", // Matching your specific background
       label: "text-zinc-400",
     },
     danger: {
