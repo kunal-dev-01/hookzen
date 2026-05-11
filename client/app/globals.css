@@ -6,37 +6,37 @@
 
 /* Orbitron - For Headings */
 @font-face {
-  font-family: 'Orbitron';
-  src: url('/fonts/Orbitron-Medium.woff2') format('woff2');
+  font-family: "Orbitron";
+  src: url("/fonts/Orbitron-Medium.woff2") format("woff2");
   font-weight: 500;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Orbitron';
-  src: url('/fonts/Orbitron-Bold.woff2') format('woff2');
+  font-family: "Orbitron";
+  src: url("/fonts/Orbitron-Bold.woff2") format("woff2");
   font-weight: 700;
   font-display: swap;
 }
 
 /* JetBrains Mono - For Body & Logs */
 @font-face {
-  font-family: 'JetBrainsMono';
-  src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-family: "JetBrainsMono";
+  src: url("/fonts/JetBrainsMono-Regular.woff2") format("woff2");
   font-weight: 400;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'JetBrainsMono';
-  src: url('/fonts/JetBrainsMono-SemiBold.woff2') format('woff2');
+  font-family: "JetBrainsMono";
+  src: url("/fonts/JetBrainsMono-SemiBold.woff2") format("woff2");
   font-weight: 600;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'JetBrainsMono';
-  src: url('/fonts/JetBrainsMono-Bold.woff2') format('woff2');
+  font-family: "JetBrainsMono";
+  src: url("/fonts/JetBrainsMono-Bold.woff2") format("woff2");
   font-weight: 700;
   font-display: swap;
 }
@@ -44,10 +44,10 @@
 @theme {
   --font-sans: "JetBrainsMono", monospace;
   --font-heading: "Orbitron", sans-serif;
-  
+
   /* Hacker Theme Colors */
-  --color-hacker-green: #00FF41;
-  --color-hacker-cyan: #00F3FF;
+  --color-hacker-green: #00ff41;
+  --color-hacker-cyan: #00f3ff;
 }
 
 :root {
@@ -57,12 +57,13 @@
   --font-sans: "JetBrainsMono", monospace;
   --font-heading: "Orbitron", sans-serif;
 
-  /* Infrastructure Dark Theme Palette */
-  --bg-primary: #030712;      /* Deep dark background */
-  --bg-secondary: #0f172a;    /* Card/Sidebar background */
-  --text-primary: #f8fafc;    /* Clean white */
-  --text-secondary: #94a3b8;  /* Dimmed text for logs */
-  --accent: #00FF41;          /* Classic Hacker Green */
+  --bg-primary: #0a0c0f;
+  --bg-secondary: #14171c;
+  --text-primary: #f0f2f5;
+  --text-secondary: #71767b;
+  --border-subtle: #1d2127;
+  --accent: #00ff41;
+  --accent-cyan: #00f3ff;
 
   color: var(--text-primary);
   background-color: var(--bg-primary);
@@ -80,7 +81,10 @@ body {
 }
 
 /* Heading Style - Aggressive Hacker Look */
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-heading);
   letter-spacing: 0.05em; /* Thoda space hacker vibe ke liye */
   text-transform: uppercase;
@@ -97,12 +101,27 @@ h1, h2, h3, h4 {
 }
 
 /* ===============================
-   Sonner Toast (Hacker Theme)
+   Sonner Toast
    =============================== */
+
 [data-sonner-toast] {
-  background: #0f172a !important; 
-  color: #00FF41 !important;     /* Neon Green text */
-  border: 1px solid rgba(0, 255, 65, 0.2) !important;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5) !important; 
+  background: #0a0c0f !important;
+  color: #00ff41 !important;
+  border: 1px solid #2d333b !important;
+  border-radius: 2px !important;
   font-family: var(--font-sans) !important;
+  box-shadow: none !important;
+  padding: 12px 16px !important;
+}
+
+[data-sonner-toast] svg {
+  color: inherit !important;
+  stroke-width: 2.5px;
+}
+
+[data-sonner-toast] [data-description] {
+  color: #94a3b8 !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.8rem !important;
+  margin-top: 4px;
 }
