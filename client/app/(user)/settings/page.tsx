@@ -18,7 +18,7 @@ function Settings() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <div className="lg:col-span-4 space-y-6 border border-zinc-800 flex flex-col items-start">
+        <div className="lg:col-span-4 border border-zinc-800 flex flex-col items-start">
           <SubHeading
             title="USER_IDENTITY"
             description="Manage identity information"
@@ -30,7 +30,7 @@ function Settings() {
         </div>
 
         <div className="lg:col-span-8 space-y-6">
-          <div className="border border-zinc-800 space-y-6 flex flex-col items-start">
+          <div className="border border-zinc-800 flex flex-col items-start">
             <SubHeading
               title="SYSTEM_ALERTS"
               description="Configure event monitoring and protocol notifications"
@@ -42,7 +42,7 @@ function Settings() {
             <Notifications />
           </div>
 
-          <div className="border border-zinc-800 space-y-6 flex flex-col items-start">
+          <div className="border border-zinc-800 flex flex-col items-start">
             <SubHeading
               title="ACTIVE_SESSIONS"
               description="Authorized access points and session persistence logs"

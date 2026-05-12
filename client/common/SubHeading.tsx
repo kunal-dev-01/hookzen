@@ -45,7 +45,7 @@ const SubHeading: React.FC<SubHeadingProps> = ({
 
   return (
     <div
-      className={`flex flex-col sm:flex-row items-start gap-4 p-2 group transition-all ${className}`}
+      className={`flex items-start gap-4 p-2 group transition-all ${className}`}
     >
       <div className="relative shrink-0">
         <div
