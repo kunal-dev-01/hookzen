@@ -15,7 +15,7 @@ export default function DashMobileNav() {
   return (
     <div className="lg:hidden">
       {/* Top Bar */}
-      <div className="h-16 border-b border-zinc-900 bg-black/80 backdrop-blur-md px-5 flex items-center justify-between sticky top-0 z-60">
+      <div className="h-16 border-b border-zinc-900 bg-black/80 px-5 flex items-center justify-between">
         <Link href="/dashboard" className="flex items-center gap-2">
           <span className="text-md font-black tracking-[0.2em]">HOOK_ZEN</span>
         </Link>

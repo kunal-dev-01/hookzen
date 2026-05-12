@@ -77,7 +77,7 @@ function Notifications() {
   );
 
   return (
-    <div className="w-full space-y-4 p-4 lg:p-6 bg-[#050505]">
+    <div className="w-full space-y-4 p-4">
       <div className="flex flex-col gap-1 mb-6 border-l-2 border-zinc-800 pl-4">
         <span className="text-[10px] font-mono text-zinc-500 tracking-[0.2em] uppercase">
           Communication Layer

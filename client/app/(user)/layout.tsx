@@ -9,12 +9,14 @@ interface UserLayoutProps {
 
 export default function UserLayout({ children }: UserLayoutProps) {
   return (
-    <div className="min-h-screen bg-black text-zinc-300">
+    <div className="min-h-screen bg-black text-zinc-300 relative">
       <div className="hidden lg:block">
         <DashSide />
       </div>
 
-      <DashMobileNav />
+      <div className="lg:hidden sticky top-0 z-50">
+        <DashMobileNav />
+      </div>
 
       <div className="lg:ml-64 flex flex-col min-h-screen">
         <main className="p-8 grow">

@@ -20,7 +20,7 @@ const Heading: React.FC<HeadingProps> = ({
       </div>
 
       <div className="space-y-1">
-        <h1 className="lg:text-4xl text-2xl font-black tracking-[0.15em] text-zinc-900 dark:text-white uppercase">
+        <h1 className="lg:text-3xl text-2xl font-black tracking-[0.15em] text-zinc-900 dark:text-white uppercase">
           <span className="text-cyan-500 mr-2 opacity-50">#</span>
           {title}
         </h1>
