@@ -12,6 +12,8 @@ import Submit from "@/common/SubmitButton";
 import FormHead from "@/common/FormHead";
 import { containerVariants, itemVariants } from "@/animation/form";
 import BackButton from "@/common/BackButton";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 interface ForgotFormProps {
   onSuccess: (email: string) => void;
@@ -33,9 +35,16 @@ export default function ForgotForm({ onSuccess }: ForgotFormProps) {
     forgotPassword(data, {
       onSuccess: () => {
         onSuccess(data.email);
+        toast.success("Password reset link sent successfully");
       },
     });
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message || "Error occurred");
+    }
+  }, [error]);
 
   return (
     <motion.div
@@ -68,16 +77,6 @@ export default function ForgotForm({ onSuccess }: ForgotFormProps) {
             disabled={isPending}
           />
         </motion.div>
-
-        {error && (
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="p-3 bg-red-500/10 border-l-2 border-red-500 text-red-500 text-[10px] font-mono uppercase tracking-wider"
-          >
-            {">"} ERROR: {error.message}
-          </motion.div>
-        )}
 
         <motion.div variants={itemVariants} className="mt-8">
           <Submit type="submit" loading={isPending}>

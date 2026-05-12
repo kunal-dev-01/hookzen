@@ -13,6 +13,8 @@ import FormHead from "@/common/FormHead";
 import PasswordStrength from "@/common/PasswordStrength";
 import { containerVariants, itemVariants } from "@/animation/form";
 import BackButton from "@/common/BackButton";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 interface ResetFormProps {
   token: string;
@@ -39,10 +41,17 @@ export default function ResetForm({ token }: ResetFormProps) {
       {
         onSuccess: () => {
           router.push("/auth/login?reset=success");
+          toast.success("Password reset successfully");
         },
       },
     );
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message || "Error occurred");
+    }
+  }, [error]);
 
   return (
     <motion.div
@@ -88,16 +97,6 @@ export default function ResetForm({ token }: ResetFormProps) {
             disabled={isPending}
           />
         </motion.div>
-
-        {error && (
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="p-3 bg-red-500/10 border-l-2 border-red-500 text-red-500 text-[10px] font-mono uppercase tracking-wider"
-          >
-            {">"} ERROR: {error.message}
-          </motion.div>
-        )}
 
         <motion.div variants={itemVariants} className="mt-8">
           <Submit type="submit" loading={isPending}>

@@ -6,6 +6,7 @@ import BackButton from "@/common/BackButton";
 import FormHead from "@/common/FormHead";
 import { Mail } from "@/svg/Common";
 import { containerVariants, itemVariants } from "@/animation/form";
+import { toast } from "sonner";
 
 interface ResetResendProps {
   email: string;
@@ -28,7 +29,14 @@ export default function ResetResend({ email, onBack }: ResetResendProps) {
 
   const handleResend = () => {
     forgotPassword({ email }, { onSuccess: () => setCountdown(60) });
+    toast.success("Password reset link sent successfully");
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message || "Error occurred");
+    }
+  }, [error]);
 
   return (
     <motion.div
@@ -95,16 +103,6 @@ export default function ResetResend({ email, onBack }: ResetResendProps) {
               countdown={countdown}
             />
           </motion.div>
-
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="p-3 bg-red-500/10 border-l-2 border-red-500 text-red-500 text-[10px] font-mono uppercase tracking-wider"
-            >
-              {">"} ERROR: {error.message}
-            </motion.div>
-          )}
 
           {isSuccess && !countdown && (
             <motion.div

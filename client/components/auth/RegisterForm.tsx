@@ -9,6 +9,8 @@ import Submit from "@/common/SubmitButton";
 import PasswordStrength from "@/common/PasswordStrength";
 import FormHead from "@/common/FormHead";
 import { containerVariants, itemVariants } from "@/animation/form";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 interface RegisterFormProps {
   onSuccess: (email: string) => void;
@@ -32,9 +34,16 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
     registerUser(data, {
       onSuccess: () => {
         onSuccess(data.email);
+        toast.success("Account created successfully");
       },
     });
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message || "Error occurred");
+    }
+  }, [error]);
 
   return (
     <motion.div
@@ -81,16 +90,6 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
           />
           <PasswordStrength password={password} />
         </motion.div>
-
-        {error && (
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-bold uppercase tracking-wider italic"
-          >
-            [!] ERROR_DETECTED: {error.message}
-          </motion.div>
-        )}
 
         <motion.div variants={itemVariants} className="mt-8">
           <Submit type="submit" loading={isPending}>
