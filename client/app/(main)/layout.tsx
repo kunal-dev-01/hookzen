@@ -23,7 +23,7 @@ function MainLayout({ children }: MainLayoutProps) {
         {children}
       </main>
 
-      <footer className="w-full mt-20">
+      <footer className="w-full mt-20 px-6 md:px-0">
         <div className="max-w-6xl mx-auto text-[10px] tracking-[0.3em] text-zinc-600 uppercase text-center px-6 border-t border-zinc-900">
           <Footer />
         </div>
