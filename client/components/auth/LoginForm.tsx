@@ -8,9 +8,13 @@ import Input from "@/common/Input";
 import Submit from "@/common/SubmitButton";
 import FormHead from "@/common/FormHead";
 import { containerVariants, itemVariants } from "@/animation/form";
+import { toast } from "sonner";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const { login, isPending, error } = useLogin();
+  const router = useRouter();
 
   const {
     register,
@@ -22,7 +26,17 @@ export default function LoginForm() {
 
   const onSubmit = (data: LoginSchema) => {
     login(data);
+    if (!error) {
+      toast.success("Logged in successfully");
+      router.push("/dashboard");
+    }
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message || "Failed to login");
+    }
+  }, [error]);
 
   return (
     <motion.div
@@ -66,16 +80,6 @@ export default function LoginForm() {
             </Link>
           </div>
         </motion.div>
-
-        {error && (
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="p-3 bg-red-500/10 border-l-2 border-red-500 text-red-500 text-[10px] font-mono uppercase tracking-wider"
-          >
-            {">"} AUTH_FAILURE: {error.message}
-          </motion.div>
-        )}
 
         <motion.div variants={itemVariants} className="mt-8">
           <Submit type="submit" loading={isPending}>

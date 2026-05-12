@@ -1,10 +1,11 @@
 import { useAuthStore } from "@/store/auth.store";
-import { useUpdateUser } from "@/hooks/useUser";
+import { useUpdatePreferences } from "@/hooks/useUser";
 import { Switch } from "@/common/SwitchButton";
+import { toast } from "sonner";
 
 function Notifications() {
   const user = useAuthStore((s) => s.user);
-  const { updateUser, isPending } = useUpdateUser();
+  const { updatePreferences, isPending } = useUpdatePreferences();
 
   // Safely getting preferences with fallbacks
   const preferences = user?.preferences?.notifications || {
@@ -13,15 +14,24 @@ function Notifications() {
   };
 
   const handleToggle = (key: keyof typeof preferences) => {
-    const newPreferences = {
-      ...user?.preferences,
-      notifications: {
-        ...preferences,
-        [key]: !preferences[key],
-      },
-    };
+    const newValue = !preferences[key];
+    const label = key === "email" ? "Email notifications" : "Webhook failure alerts";
 
-    updateUser({ preferences: newPreferences });
+    updatePreferences(
+      {
+        notifications: {
+          [key]: newValue,
+        },
+      },
+      {
+        onSuccess: () => {
+          toast.success(`${label} ${newValue ? "enabled" : "disabled"}`);
+        },
+        onError: (error) => {
+          toast.error(error.message || "Failed to update notification settings");
+        },
+      }
+    );
   };
 
   const NotificationItem = ({
