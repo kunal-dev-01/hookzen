@@ -6,8 +6,23 @@ import UserProfile from "@/components/user/settings/UserProfile";
 import Notifications from "@/components/user/settings/Notifications";
 import Sessions from "@/components/user/settings/Sessions";
 import { Bell, Shield, User } from "@/svg/Common";
+import { useMe } from "@/hooks/useUser";
+import { Loader } from "@/common/Loader";
 
 function Settings() {
+  const { isPending } = useMe();
+
+  if (isPending) {
+    return (
+      <div className="w-full h-[60vh] flex flex-col items-center justify-center gap-4">
+        <Loader className="w-12 h-12 text-cyan-500" />
+        <span className="font-mono text-[10px] text-cyan-500/50 tracking-[0.5em] animate-pulse uppercase">
+          Initializing_System_Preferences...
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full overflow-hidden">
       <div className="w-full mb-6">
