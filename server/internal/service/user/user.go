@@ -46,8 +46,7 @@ func (s *UserService) UpdateProfile(ctx context.Context, userID uuid.UUID, req d
 
 // UpdatePreferences modifies user-specific settings (JSONB) and returns the updated user
 func (s *UserService) UpdatePreferences(ctx context.Context, userID uuid.UUID, req dto.UpdatePreferencesRequest) (*models.SafeUser, error) {
-	// Since preferences are stored as a single JSONB blob and we want partial updates,
-	// we first fetch the current preferences, merge changes, then save back.
+
 	user, err := s.userRepo.GetByID(ctx, userID)
 	if err != nil {
 		return nil, err

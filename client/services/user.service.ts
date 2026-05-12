@@ -1,22 +1,36 @@
-/**
- * @file user.service.ts
- * Methods for user profile and preference management.
- */
-
 import { apiClient } from "@/lib/axios";
 import type { BackendSuccessResponse } from "@/types/api.types";
-import type { UpdateUserPayload, User } from "@/types/user.types";
+import type {
+  UpdatePreferencesPayload,
+  UpdateUserPayload,
+  User,
+} from "@/types/user.types";
 
-const BASE = "/users";
+const BASE = "/user";
 
-async function updateMe(data: UpdateUserPayload) {
+async function getMe() {
+  const res = await apiClient.get<BackendSuccessResponse<User>>(`${BASE}/me`);
+  return res.data;
+}
+
+async function updateProfile(data: UpdateUserPayload) {
   const res = await apiClient.patch<BackendSuccessResponse<User>>(
-    `${BASE}/me`,
+    `${BASE}/profile`,
+    data,
+  );
+  return res.data;
+}
+
+async function updatePreferences(data: UpdatePreferencesPayload) {
+  const res = await apiClient.patch<BackendSuccessResponse<User>>(
+    `${BASE}/preferences`,
     data,
   );
   return res.data;
 }
 
 export const userService = {
-  updateMe,
+  getMe,
+  updateProfile,
+  updatePreferences,
 };

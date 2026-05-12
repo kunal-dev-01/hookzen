@@ -19,5 +19,11 @@ export interface User {
 
 export interface UpdateUserPayload {
   full_name?: string;
-  preferences?: Partial<UserPreferences>;
+}
+
+export interface UpdatePreferencesPayload {
+  notifications?: {
+    email?: boolean;
+    webhook_failures?: boolean;
+  };
 }
