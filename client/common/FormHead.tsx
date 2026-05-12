@@ -29,7 +29,7 @@ function FormHead({ title = "WEBHOOK GATEWAY" }) {
   };
 
   return (
-    <div className="flex flex-col items-start mb-6">
+    <div className="flex flex-col items-start">
       <motion.h1
         variants={container}
         initial="hidden"
