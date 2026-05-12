@@ -12,15 +12,22 @@ export const userKeys = {
 
 export function useMe() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const updateUserLocally = useAuthStore((s) => s.updateUserLocally);
 
   const query = useQuery({
     queryKey: userKeys.me,
-    queryFn: userService.getMe,
+    queryFn: async () => {
+      const res = await userService.getMe();
+      if (res.data?.user) {
+        updateUserLocally(res.data.user);
+      }
+      return res;
+    },
     enabled: isAuthenticated,
   });
 
   return {
-    user: query.data?.data,
+    user: query.data?.data?.user,
     isPending: query.isPending,
     isError: query.isError,
     error: query.error as ApiError | null,
@@ -37,8 +44,8 @@ export function useUpdateProfile() {
   const mutation = useMutation({
     mutationFn: (payload: UpdateUserPayload) => userService.updateProfile(payload),
     onSuccess: (res) => {
-      if (res.data) {
-        updateUserLocally(res.data);
+      if (res.data?.user) {
+        updateUserLocally(res.data.user);
         queryClient.invalidateQueries({ queryKey: userKeys.me });
       }
     },
@@ -63,8 +70,8 @@ export function useUpdatePreferences() {
     mutationFn: (payload: UpdatePreferencesPayload) =>
       userService.updatePreferences(payload),
     onSuccess: (res) => {
-      if (res.data) {
-        updateUserLocally(res.data);
+      if (res.data?.user) {
+        updateUserLocally(res.data.user);
         queryClient.invalidateQueries({ queryKey: userKeys.me });
       }
     },

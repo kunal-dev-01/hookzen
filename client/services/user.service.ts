@@ -9,12 +9,12 @@ import type {
 const BASE = "/user";
 
 async function getMe() {
-  const res = await apiClient.get<BackendSuccessResponse<User>>(`${BASE}/me`);
+  const res = await apiClient.get<BackendSuccessResponse<{ user: User }>>(`${BASE}/me`);
   return res.data;
 }
 
 async function updateProfile(data: UpdateUserPayload) {
-  const res = await apiClient.patch<BackendSuccessResponse<User>>(
+  const res = await apiClient.patch<BackendSuccessResponse<{ user: User }>>(
     `${BASE}/profile`,
     data,
   );
@@ -22,7 +22,7 @@ async function updateProfile(data: UpdateUserPayload) {
 }
 
 async function updatePreferences(data: UpdatePreferencesPayload) {
-  const res = await apiClient.patch<BackendSuccessResponse<User>>(
+  const res = await apiClient.patch<BackendSuccessResponse<{ user: User }>>(
     `${BASE}/preferences`,
     data,
   );
