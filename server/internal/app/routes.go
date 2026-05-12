@@ -22,6 +22,7 @@ func RegisterRoutes(app *fiber.App, d *Dependencies) {
 	v1 := app.Group("/api/v1")
 
 	registerAuthRoutes(v1, d)
+	registerUserRoutes(v1, d)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -54,4 +55,18 @@ func registerAuthRoutes(r fiber.Router, d *Dependencies) {
 	protected.Delete("/sessions/:id", d.SessionHandler.RevokeSession)
 
 	protected.Post("/logout", d.SessionHandler.Logout)
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// USER ROUTES
+// ─────────────────────────────────────────────────────────────────────────────
+
+func registerUserRoutes(r fiber.Router, d *Dependencies) {
+	user := r.Group("/user",
+		middleware.AuthRequired(d.JWT, d.SessionRepo),
+	)
+
+	user.Get("/me", d.UserHandler.GetMe)
+	user.Patch("/profile", d.UserHandler.UpdateProfile)
+	user.Patch("/preferences", d.UserHandler.UpdatePreferences)
 }

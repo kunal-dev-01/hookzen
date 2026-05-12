@@ -4,12 +4,14 @@ import (
 	"server/internal/broker"
 	"server/internal/config"
 	"server/internal/email"
-	"server/internal/handler/auth"
+	authHandler "server/internal/handler/auth"
+	userHandler "server/internal/handler/user"
 	"server/internal/middleware"
 	rds "server/internal/redis"
 	"server/internal/repo"
 	"server/internal/security"
-	"server/internal/service/auth"
+	authSvc "server/internal/service/auth"
+	userSvc "server/internal/service/user"
 	"server/internal/utils"
 )
 
@@ -31,14 +33,16 @@ type Dependencies struct {
 
 	// Services
 	EmailSvc    *email.EmailService
-	AccountSvc  *service.AccountService
-	PasswordSvc *service.PasswordService
-	SessionSvc  *service.SessionService
+	AccountSvc  *authSvc.AccountService
+	PasswordSvc *authSvc.PasswordService
+	SessionSvc  *authSvc.SessionService
+	UserSvc     *userSvc.UserService
 
 	// Handlers
-	AccountHandler  *handler.AccountHandler
-	PasswordHandler *handler.PasswordHandler
-	SessionHandler  *handler.SessionHandler
+	AccountHandler  *authHandler.AccountHandler
+	PasswordHandler *authHandler.PasswordHandler
+	SessionHandler  *authHandler.SessionHandler
+	UserHandler     *userHandler.UserHandler
 
 	// Middleware
 	LoggerMW *middleware.Logger
@@ -56,14 +60,16 @@ func Wire(cfg *config.Config, log *utils.Logger, redisClient *rds.Redis, brk *br
 	tokenRepo := repo.NewTokenRepository(redisClient)
 
 	// ── Services ──────────────────────────────────────────────────────────────
-	accountSvc := service.NewAccountService(cfg, userRepo, tokenRepo, sessionRepo, jwt, emailSvc)
-	passwordSvc := service.NewPasswordService(userRepo, tokenRepo, sessionRepo, emailSvc)
-	sessionSvc := service.NewSessionService(cfg, userRepo, sessionRepo, jwt)
+	accountSvc := authSvc.NewAccountService(cfg, userRepo, tokenRepo, sessionRepo, jwt, emailSvc)
+	passwordSvc := authSvc.NewPasswordService(userRepo, tokenRepo, sessionRepo, emailSvc)
+	sessionSvc := authSvc.NewSessionService(cfg, userRepo, sessionRepo, jwt)
+	userSvcInstance := userSvc.NewUserService(userRepo)
 
 	// ── Handlers ──────────────────────────────────────────────────────────────
-	accountHandler := handler.NewAccountHandler(cfg, accountSvc)
-	passwordHandler := handler.NewPasswordHandler(cfg, passwordSvc)
-	sessionHandler := handler.NewSessionHandler(cfg, sessionSvc)
+	accountHandler := authHandler.NewAccountHandler(cfg, accountSvc)
+	passwordHandler := authHandler.NewPasswordHandler(cfg, passwordSvc)
+	sessionHandler := authHandler.NewSessionHandler(cfg, sessionSvc)
+	userHandlerInstance := userHandler.NewUserHandler(userSvcInstance)
 
 	// ── Middleware ─────────────────────────────────────────────────────────────
 	loggerMW := middleware.NewLogger(log, cfg)
@@ -82,9 +88,11 @@ func Wire(cfg *config.Config, log *utils.Logger, redisClient *rds.Redis, brk *br
 		AccountSvc:      accountSvc,
 		PasswordSvc:     passwordSvc,
 		SessionSvc:      sessionSvc,
+		UserSvc:         userSvcInstance,
 		AccountHandler:  accountHandler,
 		PasswordHandler: passwordHandler,
 		SessionHandler:  sessionHandler,
+		UserHandler:     userHandlerInstance,
 		LoggerMW:        loggerMW,
 		Limiters:        limiters,
 	}
