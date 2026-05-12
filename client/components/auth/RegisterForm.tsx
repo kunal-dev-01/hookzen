@@ -9,7 +9,6 @@ import Submit from "@/common/SubmitButton";
 import PasswordStrength from "@/common/PasswordStrength";
 import FormHead from "@/common/FormHead";
 import { containerVariants, itemVariants } from "@/animation/form";
-import { useEffect } from "react";
 import { toast } from "sonner";
 
 interface RegisterFormProps {
@@ -17,7 +16,7 @@ interface RegisterFormProps {
 }
 
 export default function RegisterForm({ onSuccess }: RegisterFormProps) {
-  const { register: registerUser, isPending, error } = useRegister();
+  const { register: registerUser, isPending } = useRegister();
 
   const {
     register,
@@ -36,14 +35,11 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
         onSuccess(data.email);
         toast.success("Account created successfully");
       },
+      onError: (err) => {
+        toast.error(err.message || "Failed to create account");
+      },
     });
   };
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message || "Error occurred");
-    }
-  }, [error]);
 
   return (
     <motion.div

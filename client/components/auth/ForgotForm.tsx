@@ -13,14 +13,13 @@ import FormHead from "@/common/FormHead";
 import { containerVariants, itemVariants } from "@/animation/form";
 import BackButton from "@/common/BackButton";
 import { toast } from "sonner";
-import { useEffect } from "react";
 
 interface ForgotFormProps {
   onSuccess: (email: string) => void;
 }
 
 export default function ForgotForm({ onSuccess }: ForgotFormProps) {
-  const { forgotPassword, isPending, error } = useForgotPassword();
+  const { forgotPassword, isPending } = useForgotPassword();
   const router = useRouter();
 
   const {
@@ -37,14 +36,11 @@ export default function ForgotForm({ onSuccess }: ForgotFormProps) {
         onSuccess(data.email);
         toast.success("Password reset link sent successfully");
       },
+      onError: (err) => {
+        toast.error(err.message || "Failed to send recovery link");
+      },
     });
   };
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message || "Error occurred");
-    }
-  }, [error]);
 
   return (
     <motion.div

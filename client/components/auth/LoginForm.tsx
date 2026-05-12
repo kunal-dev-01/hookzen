@@ -9,11 +9,10 @@ import Submit from "@/common/SubmitButton";
 import FormHead from "@/common/FormHead";
 import { containerVariants, itemVariants } from "@/animation/form";
 import { toast } from "sonner";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-  const { login, isPending, error } = useLogin();
+  const { login, isPending } = useLogin();
   const router = useRouter();
 
   const {
@@ -25,18 +24,16 @@ export default function LoginForm() {
   });
 
   const onSubmit = (data: LoginSchema) => {
-    login(data);
-    if (!error) {
-      toast.success("Logged in successfully");
-      router.push("/dashboard");
-    }
+    login(data, {
+      onSuccess: () => {
+        toast.success("Logged in successfully");
+        router.push("/dashboard");
+      },
+      onError: (err) => {
+        toast.error(err.message || "Failed to login");
+      },
+    });
   };
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message || "Failed to login");
-    }
-  }, [error]);
 
   return (
     <motion.div

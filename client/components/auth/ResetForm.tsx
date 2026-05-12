@@ -13,7 +13,6 @@ import FormHead from "@/common/FormHead";
 import PasswordStrength from "@/common/PasswordStrength";
 import { containerVariants, itemVariants } from "@/animation/form";
 import BackButton from "@/common/BackButton";
-import { useEffect } from "react";
 import { toast } from "sonner";
 
 interface ResetFormProps {
@@ -21,7 +20,7 @@ interface ResetFormProps {
 }
 
 export default function ResetForm({ token }: ResetFormProps) {
-  const { resetPassword, isPending, error } = useResetPassword();
+  const { resetPassword, isPending } = useResetPassword();
   const router = useRouter();
 
   const {
@@ -43,15 +42,12 @@ export default function ResetForm({ token }: ResetFormProps) {
           router.push("/auth/login?reset=success");
           toast.success("Password reset successfully");
         },
+        onError: (err) => {
+          toast.error(err.message || "Failed to reset password");
+        },
       },
     );
   };
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message || "Error occurred");
-    }
-  }, [error]);
 
   return (
     <motion.div

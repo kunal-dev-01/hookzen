@@ -15,7 +15,7 @@ interface ResendVerifyProps {
 
 export default function ResendVerify({ email, onBack }: ResendVerifyProps) {
   const [countdown, setCountdown] = useState(0);
-  const { resend, isPending, isSuccess, error } = useResendVerification();
+  const { resend, isPending, isSuccess } = useResendVerification();
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -28,15 +28,19 @@ export default function ResendVerify({ email, onBack }: ResendVerifyProps) {
   }, [countdown]);
 
   const handleResend = () => {
-    resend({ email }, { onSuccess: () => setCountdown(60) });
-    toast.success("New verification link sent successfully");
+    resend(
+      { email },
+      {
+        onSuccess: () => {
+          setCountdown(60);
+          toast.success("New verification link sent successfully");
+        },
+        onError: (err) => {
+          toast.error(err.message || "Failed to resend verification link");
+        },
+      },
+    );
   };
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message || "Error occurred");
-    }
-  }, [error]);
 
   return (
     <motion.div

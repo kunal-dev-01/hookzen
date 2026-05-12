@@ -15,7 +15,7 @@ interface ResetResendProps {
 
 export default function ResetResend({ email, onBack }: ResetResendProps) {
   const [countdown, setCountdown] = useState(0);
-  const { forgotPassword, isPending, isSuccess, error } = useForgotPassword();
+  const { forgotPassword, isPending, isSuccess } = useForgotPassword();
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -28,15 +28,19 @@ export default function ResetResend({ email, onBack }: ResetResendProps) {
   }, [countdown]);
 
   const handleResend = () => {
-    forgotPassword({ email }, { onSuccess: () => setCountdown(60) });
-    toast.success("Password reset link sent successfully");
+    forgotPassword(
+      { email },
+      {
+        onSuccess: () => {
+          setCountdown(60);
+          toast.success("Password reset link sent successfully");
+        },
+        onError: (err) => {
+          toast.error(err.message || "Failed to resend recovery link");
+        },
+      },
+    );
   };
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message || "Error occurred");
-    }
-  }, [error]);
 
   return (
     <motion.div
