@@ -14,7 +14,7 @@ export default function DashSide() {
     <aside className="fixed left-0 top-0 h-screen w-64 bg-black border-r border-zinc-900 flex flex-col z-50">
       <div className="p-6 border-b border-zinc-900">
         <Link href="/dashboard" className="flex items-center gap-3 group">
-          <FormHead title="HOOK_ZEN" />
+          <h1 className="text-xl md:text-2xl font-bold">HOOK_ZEN</h1>
         </Link>
       </div>
 

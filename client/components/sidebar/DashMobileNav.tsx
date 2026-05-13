@@ -19,7 +19,7 @@ export default function DashMobileNav() {
       {/* --- TOP FIXED BAR --- */}
       <div className="fixed top-0 left-0 right-0 h-16 border-b border-zinc-900 bg-black/80 backdrop-blur-md px-5 flex items-center justify-between z-50">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <FormHead title="Hook_zen" />
+          <h1 className="text-xl md:text-2xl font-bold">HOOK_ZEN</h1>
         </Link>
 
         <button

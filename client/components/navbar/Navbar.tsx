@@ -16,7 +16,7 @@ export default function Navbar({ onOpenSidebar }: NavbarProps) {
 
       <div className="relative z-10 flex items-center justify-between px-6 py-3">
         <Link href="/" className="flex items-center">
-          <FormHead title="HOOK_ZEN" />
+          <h1 className="text-xl md:text-2xl font-bold">HOOK_ZEN</h1>
         </Link>
 
         {/* Navigation Links (Desktop - Static Pages) */}
