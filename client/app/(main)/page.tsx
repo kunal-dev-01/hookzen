@@ -1,7 +1,11 @@
 "use client";
+import Hero from "@/components/home/Hero";
+
 function Home() {
   return (
-    <div className="w-full relative flex items-center bg-zinc-900 h-screen"></div>
+    <div className="w-full relative flex items-center">
+      <Hero />
+    </div>
   );
 }
 

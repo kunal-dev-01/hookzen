@@ -9,7 +9,7 @@ interface NavbarProps {
 export default function Navbar({ onOpenSidebar }: NavbarProps) {
   return (
     <nav className="w-full max-w-6xl relative group">
-      <div className="absolute inset-0 bg-black/30 border border-zinc-800 group-hover:border-cyan-500/30 transition-colors duration-500" />
+      <div className="absolute inset-0 backdrop-blur-sm border border-zinc-800 group-hover:border-cyan-500/30 transition-colors duration-500" />
 
       <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-cyan-500" />
       <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-cyan-500" />
