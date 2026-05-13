@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 const MOCK_LOGS = [
   {
     method: "POST",
@@ -32,18 +30,6 @@ const MOCK_LOGS = [
 ];
 
 export default function TerminalVisual() {
-  const [logs, setLogs] = useState(MOCK_LOGS);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setLogs((prev) => {
-        const newLog = MOCK_LOGS[Math.floor(Math.random() * MOCK_LOGS.length)];
-        return [...prev.slice(1), { ...newLog, id: Date.now() }];
-      });
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <div className="w-full h-full text-[10px] md:text-[11px] flex flex-col p-4 bg-black/40">
       {/* Terminal Top Bar */}
@@ -58,7 +44,7 @@ export default function TerminalVisual() {
 
       {/* Logs Stream */}
       <div className="flex-1 space-y-3 overflow-hidden">
-        {logs.map((log, i) => (
+        {MOCK_LOGS.map((log, i) => (
           <div
             key={i}
             className="flex flex-col gap-1 animate-in fade-in slide-in-from-bottom-2 duration-500"
