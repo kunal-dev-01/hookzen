@@ -1,6 +1,8 @@
 "use client";
 function Home() {
-  return <div className="w-fit flex items-center justify-center p-5"></div>;
+  return (
+    <div className="w-full relative flex items-center bg-zinc-900 h-screen"></div>
+  );
 }
 
 export default Home;

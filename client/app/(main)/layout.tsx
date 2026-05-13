@@ -13,13 +13,15 @@ function MainLayout({ children }: MainLayoutProps) {
 
   return (
     <div className="w-full flex flex-col min-h-screen text-zinc-300">
-      <header className="w-full pt-6 flex justify-center px-6">
-        <Navbar onOpenSidebar={() => setIsSidebarOpen(true)} />
+      <header className="sticky top-0 z-50 w-full pt-6 flex justify-center px-6">
+        <div className="w-full max-w-6xl">
+          <Navbar onOpenSidebar={() => setIsSidebarOpen(true)} />
+        </div>
       </header>
 
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-      <main className="w-full grow max-w-6xl mx-auto px-6 py-10">
+      <main className="w-full grow max-w-6xl mx-auto px-6 py-10 lg:px-0">
         {children}
       </main>
 
